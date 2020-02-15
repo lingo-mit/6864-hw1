@@ -9,8 +9,8 @@ def show_similar_words(tokenizer, reps, n=10):
         sims = ((reps - rep) ** 2).sum(axis=1)
         nearest = np.argsort(sims)
         print(word)
-        for j in nearest[:5]:
-            print(" ", tokenizer.token_to_word[j])
+        for j in nearest[1:6]:
+            print(" ", tokenizer.token_to_word[j], "%.3f" % sims[j])
 
 class Tokenizer:
   def __init__(self, min_occur=10):
