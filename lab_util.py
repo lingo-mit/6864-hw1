@@ -2,7 +2,7 @@ import numpy as np
 import re
 
 def show_similar_words(tokenizer, reps, n=10):
-    for i, (word, token) in enumerate(tokenizer.word_to_token):
+    for i, (word, token) in enumerate(tokenizer.word_to_token.items()):
         if i >= n:
             break
         rep = reps[token, :]
@@ -10,7 +10,7 @@ def show_similar_words(tokenizer, reps, n=10):
         nearest = np.argsort(sims)
         print(word)
         for j in nearest[:5]:
-            print(" ", tokenizer.token_to_word(j))
+            print(" ", tokenizer.token_to_word[j])
 
 class Tokenizer:
   def __init__(self, min_occur=10):
