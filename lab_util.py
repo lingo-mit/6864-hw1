@@ -1,6 +1,17 @@
 import numpy as np
 import re
 
+def show_similar_words(tokenizer, reps, n=10):
+    for i, (word, token) in enumerate(tokenizer.word_to_token):
+        if i >= n:
+            break
+        rep = reps[token, :]
+        sims = ((reps - rep) ** 2).sum(axis=1)
+        nearest = np.argsort(sims)
+        print(word)
+        for j in nearest[:5]:
+            print(" ", tokenizer.token_to_word(j))
+
 class Tokenizer:
   def __init__(self, min_occur=10):
     self.word_to_token = {}
@@ -71,3 +82,5 @@ class CountVectorizer:
         else:
           X[i][self.tokenizer.word_to_token[word]] += 1
     return X
+
+
