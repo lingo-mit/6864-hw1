@@ -1,5 +1,7 @@
 import numpy as np
 import re
+import string
+import random
 
 def show_similar_words(tokenizer, reps, tokens):
     reps = reps / (np.sqrt((reps ** 2).sum(axis=1, keepdims=True)))
@@ -91,3 +93,47 @@ class CountVectorizer:
     return X
 
 
+
+
+def get_ngrams(corpus, window_size):
+    tk = lab_util.Tokenizer()
+    tk.fit(corpus)
+    corpus = tk.transform(corpus)
+
+    # construct skip grams in a way that is compatible with batch processing
+    ngrams = []
+    for i, review in enumerate(corpus):
+        for j, word in enumerate(review):
+            min_ind = max(0, j-window_size)
+            max_ind = min(len(review), j+window_size)
+            ctx = np.zeros(2 * window_size, dtype=np.int64)
+            for ik, k in enumerate(range(min_ind, j)):
+                ctx[ik] = review[k]
+            for ik, k in enumerate(range(j+1, max_ind+1)):
+                ctx[window_size+ik] = review[k]
+            ngrams.append((ctx, review[j]))
+
+    return ngrams
+      
+    #for i, review in enumerate(corpus):
+    #    review = [word for word in review if word in tk.word_to_token]
+    #    if len(review) < 5:
+    #        continue
+    #    elif len(review) > 1000:
+    #        print(len(review))
+    #        review = review[:1000]
+    #    for i, word in enumerate(review):
+    #        min_ind = max(0, i-window_size)
+    #        max_ind = min(len(review), i+window_size)
+    #        context = review[min_ind:i] + review[i+1:max_ind]
+    #        input_batch[batch_count] = tk.word_to_token[word]
+    #        for word in context:
+    #    	idx = tk.word_to_token[word]
+    #    	label_batch[batch_count][idx] = 1
+    #        batch_count += 1
+    #        if batch_count >= batch_size-1:
+    #    	ngrams.append((np.copy(input_batch), np.copy(label_batch)))
+    #    	input_batch = np.zeros(batch_size)
+    #    	label_batch = np.zeros((batch_size, tk.vocab_size))
+    #    	batch_count = 0
+    #random.shuffle(ngrams)
