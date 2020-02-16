@@ -97,11 +97,11 @@ def get_ngrams(tokenized_corpus, window_size):
     for i, review in enumerate(tokenized_corpus):
         for j, word in enumerate(review):
             min_ind = max(0, j-window_size)
-            max_ind = min(len(review), j+window_size)
+            max_ind = min(len(review), j+window_size+1)
             ctx = np.zeros(2 * window_size, dtype=np.int64)
             for ik, k in enumerate(range(min_ind, j)):
                 ctx[ik] = review[k]
-            for ik, k in enumerate(range(j+1, max_ind+1)):
+            for ik, k in enumerate(range(j+1, max_ind)):
                 ctx[window_size+ik] = review[k]
             ngrams.append((ctx, review[j]))
     return ngrams
