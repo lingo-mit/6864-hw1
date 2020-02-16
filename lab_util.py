@@ -2,7 +2,7 @@ import numpy as np
 import re
 
 def show_similar_words(tokenizer, reps, n=10):
-    reps = reps / np.sqrt((reps ** 2).sum(axis=1, keepdims=True))
+    reps = reps / np.sqrt((reps ** 2).sum(axis=1, keepdims=True) + 1e-8)
     for i, (word, token) in enumerate(tokenizer.word_to_token.items()):
         if i >= n:
             break
