@@ -2,14 +2,14 @@ import numpy as np
 import re
 
 def show_similar_words(tokenizer, reps, tokens):
-    reps = reps / (np.sqrt((reps ** 2).sum(axis=1, keepdims=True)) + 1e-8)
+    reps = reps / (np.sqrt((reps ** 2).sum(axis=1, keepdims=True)))
     #for i, (word, token) in enumerate(tokenizer.word_to_token.items()):
     for token in tokens:
         word = tokenizer.token_to_word[token]
         rep = reps[token, :]
         sims = ((reps - rep) ** 2).sum(axis=1)
         nearest = np.argsort(sims)
-        print(word)
+        print(word, token)
         for j in nearest[1:6]:
             print(" ", tokenizer.token_to_word[j], "%.3f" % sims[j])
 
