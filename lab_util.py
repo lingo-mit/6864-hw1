@@ -114,26 +114,3 @@ def get_ngrams(corpus, window_size):
             ngrams.append((ctx, review[j]))
 
     return ngrams
-      
-    #for i, review in enumerate(corpus):
-    #    review = [word for word in review if word in tk.word_to_token]
-    #    if len(review) < 5:
-    #        continue
-    #    elif len(review) > 1000:
-    #        print(len(review))
-    #        review = review[:1000]
-    #    for i, word in enumerate(review):
-    #        min_ind = max(0, i-window_size)
-    #        max_ind = min(len(review), i+window_size)
-    #        context = review[min_ind:i] + review[i+1:max_ind]
-    #        input_batch[batch_count] = tk.word_to_token[word]
-    #        for word in context:
-    #    	idx = tk.word_to_token[word]
-    #    	label_batch[batch_count][idx] = 1
-    #        batch_count += 1
-    #        if batch_count >= batch_size-1:
-    #    	ngrams.append((np.copy(input_batch), np.copy(label_batch)))
-    #    	input_batch = np.zeros(batch_size)
-    #    	label_batch = np.zeros((batch_size, tk.vocab_size))
-    #    	batch_count = 0
-    #random.shuffle(ngrams)
