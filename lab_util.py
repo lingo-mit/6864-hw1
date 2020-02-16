@@ -37,9 +37,10 @@ class Tokenizer:
     for review in corpus:
       review = review.strip().lower()
       words = re.findall(r"[\w']+|[.,!?;]", review)
-      
       for word in words:
         if self.word_count[word] < self.min_occur:
+          continue
+        if word in self.word_to_token:
           continue
         self.word_to_token[word] = self.vocab_size
         self.token_to_word[self.vocab_size] = word
@@ -52,7 +53,7 @@ class Tokenizer:
       words = re.findall(r"[\w']+|[.,!?;]", review)
       tokenized_review = []
       for word in words:
-        if word not in self.word_count or self.word_count[word] < self.min_occur:
+        if word not in self.word_to_token:
           tokenized_review.append(0)
         else:
           tokenized_review.append(self.word_to_token[word])
