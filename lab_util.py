@@ -29,16 +29,21 @@ class Tokenizer:
     for review in corpus:
       review = review.strip().lower()
       words = re.findall(r"[\w']+|[.,!?;]", review)
+      for word in words:
+          if word not in word_count:
+              self.word_count[word] = 0
+          self.word_count[word] += 1
+
+    for review in corpus:
+      review = review.strip().lower()
+      words = re.findall(r"[\w']+|[.,!?;]", review)
       
       for word in words:
-        if word in self.word_to_token:
-          self.word_count[word] += 1
-        else:
-          self.word_to_token[word] = self.vocab_size
-          self.token_to_word[self.vocab_size] = word
-          self.word_count[word] = 1
-          
-          self.vocab_size += 1
+        if self.word_count[word] < self.min_occur:
+          continue
+        self.word_to_token[word] = self.vocab_size
+        self.token_to_word[self.vocab_size] = word
+        self.vocab_size += 1
         
   def tokenize(self, corpus):
     tokenized_corpus = []
@@ -66,7 +71,7 @@ class Tokenizer:
 
 class CountVectorizer:
   def __init__(self, min_occur=10):
-    self.tokenizer = Tokenizer()
+    self.tokenizer = Tokenizer(min_occur)
     
   def fit(self, corpus):
     self.tokenizer.fit(corpus)
