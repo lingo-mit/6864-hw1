@@ -30,7 +30,7 @@ class Tokenizer:
       review = review.strip().lower()
       words = re.findall(r"[\w']+|[.,!?;]", review)
       for word in words:
-          if word not in word_count:
+          if word not in self.word_count:
               self.word_count[word] = 0
           self.word_count[word] += 1
 
